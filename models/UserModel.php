@@ -14,13 +14,16 @@ class UserModel extends CoreModel
                         $res = $req -> fetch(PDO::FETCH_ASSOC);
                         if(PWD::verify($pwd,$res['pwd']))#class PWD dans function
                         {
-                            $_SESSION[APP_TAG]['connected']['use_login']=$res;
-                            $req ->closecursor();
+                            $res = $_SESSION[APP_TAG]['connected']['use_login'];
+                            $req->closecursor();
                             header('location: index.php');
                             exit;
                         }else
                         {
-                            echo 'Erreur de login ou de mot de passe!';
+                            echo 'Erreur de login ou de mot de passe!';                            
+                            $req ->closecursor();
+                            header('location: index.php');
+                            exit;
                         }
                         
                     }else {
@@ -92,6 +95,7 @@ class UserModel extends CoreModel
                 if (($req -> bindValue('email', $email)) && $req->bindValue('name',$name)){
                     if ($req -> bindValue('pwd', $pwd)){
                         if ($req -> execute()){
+                            
                             $req ->closecursor();
                             header('location index.php?edit=ok');                            
                             exit;
@@ -117,7 +121,42 @@ class UserModel extends CoreModel
             die($e->getMessage());
 
         }
+    }
 
+    private function duplicate($email, $name)
+    {
+        
+        try
+        {
+            if (($req = $pdo->prepare(""))!==false){
+                if ($req -> bindValue('email', $email)){
+                    if ($req -> bindValue('name', $name)){
+                        if ($req -> execute()){
+                            $req ->closecursor();
+                            header('location index.php?edit=ok');                            
+                            exit;
+                        }else {
+                            header('location index.php?edit=failed');     
+                            exit;
+                            //header
+                        }
+                    }else { echo 'Un problème de mot de passe!';
+                        $req ->closecursor();
+                        //header
+                    }
+                }else{ echo 'Un problème de mot de login!';
+                    $req ->closecursor();
+                    //header
+                }
+                $req ->closecursor();
+            }
+
+
+        }catch(PDOException $e)
+        {
+            die($e->getMessage());
+
+        }
     }
 
 }

@@ -16,7 +16,8 @@ class PWD{
       return password_hash($password);
     }
 
-    public static function verify(string $password, string $hash) :boolean{
+    #returns boolean
+    public static function verify(string $password, string $hash){
       return password_verify($password,$hash);
 
     }

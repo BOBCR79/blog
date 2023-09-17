@@ -15,12 +15,7 @@ function debugArray(array $array, int $start, int $items){
     }
 }
 
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);   
-    return $data;
-  }
+
 
 class dbg {
     # multi-row array or object

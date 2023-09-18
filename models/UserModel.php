@@ -5,17 +5,21 @@ class UserModel extends CoreModel
 
     public function login($email,$pwd)
     {
+        
+
         try
         {
-            if (($req = $pdo->prepare("SELECT usr_nom AS name, usr_email AS email, usr_pwd AS pwd FROM user WHERE usr_email=:email"))!==false){
+            if (($req = $this->getDb()->prepare("SELECT usr_nom AS name, usr_email AS email, usr_pwd AS pwd FROM user WHERE usr_email=:email"))!==false){
                 if ($req -> bindValue('email', $email))
                 {                   
                     if ($req -> execute()){                    
                         $res = $req -> fetch(PDO::FETCH_ASSOC);
                         if(PWD::verify($pwd,$res['pwd']))#class PWD dans function
                         {
-                            $res = $_SESSION[APP_TAG]['connected']['use_login'];
+                            $_SESSION[APP_TAG]['connected']['use_login'] = $res;
+                            
                             $req->closecursor();
+                           
                             header('location: index.php');
                             exit;
                         }else
@@ -50,33 +54,42 @@ class UserModel extends CoreModel
 
     public function create($email, $name, $pwd)
     {
-
+        
         try
         {
-            if (($req = $pdo->prepare("INSERT INTO user (usr_nom, usr_email, usr_mdp) VALUES (:name, :email, :pwd)"))!==false){
-                if (($req -> bindValue('email', $email)) && $req->bindValue('name',$name)){
-                    if ($req -> bindValue('pwd', $pwd)){
-                        if ($req -> execute()){
-                            $req ->closecursor();
-                            header('location index.php?newaccount=ok');                            
-                            exit;
-                        }else {
-                            header('location index.php?newaccount=failed');     
-                            exit;
-                           
-                        }
-                    }else { echo 'Un problème de mot de passe!';
-                        $req ->closecursor();
-                        //header
-                    }
-                }else{ echo 'Un problème de mot de login!';
+            if (($check = $this->getDb()->query("SELECT usr_nom AS nom FROM user WHERE usr_email = :email OR usr_nom = :name"))!==true)
+            {    if ($req -> execute()){
+                    $data = $req -> fetchAll(PDO::FETCH_ASSOC);
                     $req ->closecursor();
-                    //header
+                    if (!(count($data) > 0)){                
+                        
+
+                        if (($req =$this->getDb()->prepare("INSERT INTO user (usr_nom, usr_email, usr_mdp) VALUES (:name, :email, :pwd)"))!==false)
+                        {
+                            if (($req -> bindValue('email', $email)) && $req->bindValue('name',$name)){
+                                if ($req -> bindValue('pwd', $pwd)){
+                                    if ($req -> execute()){
+                                        $req ->closecursor();
+                                        header('location index.php?newaccount=ok');                            
+                                        exit;
+                                    }else {
+                                        header('location index.php?newaccount=failed');     
+                                        exit;
+                                                        
+                                    }
+                                }else { echo 'Un problème de mot de passe!';
+                                    $req ->closecursor();
+                                    //header
+                                }
+                            }else{ echo 'Un problème de mot de login!';
+                                $req ->closecursor();
+                                //header
+                            }
+                            $req ->closecursor();
+                        }    
+                    }else return $data['nom'];
                 }
-                $req ->closecursor();
-            }
-
-
+            }# else can't read database
         }catch(PDOException $e)
         {
             die($e->getMessage());
@@ -91,7 +104,7 @@ class UserModel extends CoreModel
         
         try
         {
-            if (($req = $pdo->prepare("INSERT INTO user( usr_nom, usr_email, usr_mdp) VALUES (:name, :email, :pwd)"))!==false){
+            if (($req = $this->getDb()->prepare("INSERT INTO user( usr_nom, usr_email, usr_mdp) VALUES (:name, :email, :pwd)"))!==false){
                 if (($req -> bindValue('email', $email)) && $req->bindValue('name',$name)){
                     if ($req -> bindValue('pwd', $pwd)){
                         if ($req -> execute()){
@@ -123,19 +136,23 @@ class UserModel extends CoreModel
         }
     }
 
-    private function duplicate($email, $name)
+    private function duplicateCheck($email, $name)
     {
         
         try
         {
-            if (($req = $pdo->prepare(""))!==false){
+            if (($req = $this->getDb()->prepare("SELECT usr_nom AS nom FROM user WHERE usr_email = :email OR usr_nom = :name"))!==false){
                 if ($req -> bindValue('email', $email)){
                     if ($req -> bindValue('name', $name)){
                         if ($req -> execute()){
+                            $res = $req -> fetch(PDO::FETCH_ASSOC);
                             $req ->closecursor();
-                            header('location index.php?edit=ok');                            
-                            exit;
+                            if (!empty($res['nom'])) {
+                                return true;
+                            }         
+                            
                         }else {
+                            $req ->closecursor();
                             header('location index.php?edit=failed');     
                             exit;
                             //header

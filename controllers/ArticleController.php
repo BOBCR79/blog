@@ -10,7 +10,7 @@ class ArticleController{
             $artModel = new ArticleModel();
     
           
-            $datas = $artModel->viewAll();
+            $datas = $artModel->viewAll();# id, titre, auteur, texte, horodatage, auteur
 
             $articles = [];
 

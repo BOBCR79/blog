@@ -1,6 +1,6 @@
 
 <div class="wrapper">
-    <form action="index.php?c=user&a=create" method="post">
+    <form class="login" action="index.php?c=user&a=create" method="post">
         <?php
             FORM::lbl('Email','email');
             FORM::email('email','email');
@@ -12,7 +12,7 @@
             FORM::pwd('pwd','pwd');
 
         ?>
-           <input type="submit" value="Créer">
+           <button type="submit">Valider</button>
     </form>
 
 
@@ -22,7 +22,5 @@
 
 
 
-<?php
 
 
-require 'views/inc/foot.php';

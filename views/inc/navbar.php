@@ -17,5 +17,5 @@
             </ul>
     </nav>
     <?php endif ?>
-    <h1>Titre Blog</h1>
+    
 </header>

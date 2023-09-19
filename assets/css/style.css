@@ -61,6 +61,7 @@ ul{
     font-weight: 700;
     color: white;
     background-color: gray;
+    border-radius: 0 0 5px 5px;
     
 }
 .unlogged li a{
@@ -84,7 +85,41 @@ h3{
 p{
     font-size: 1.8rem;
 }
-
+.login{
+    width: 30rem;
+    height: 40rem;
+    margin: 10rem auto;
+    background-color: #dae6da;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 5px 2px 1px rgb(127, 110, 110);
+   
+}
+form label{
+    margin-top: 2.2rem;
+    width: 20rem;
+    align-self: center;
+    font-size: 2rem;
+    line-height: 2;
+}
+form input{
+    width: 20rem;
+    line-height: 18px;
+    align-self: center;
+    font-size: 14px;
+}
+form button{
+    margin-top: 4rem;
+    align-self: center;
+    padding: 8px 16px;
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    background-color: rgb(20, 53, 54);
+    border-radius: 10px;
+    border: 3px solid grey;
+}
 
 
 

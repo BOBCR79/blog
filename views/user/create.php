@@ -1,5 +1,6 @@
 
 <div class="wrapper">
+    <h1>Créer compte</h1>
     <form class="login" action="index.php?c=user&a=create" method="post">
         <?php
             FORM::lbl('Email','email');

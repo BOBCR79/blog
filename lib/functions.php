@@ -12,7 +12,7 @@ function test_input($data) {
 class PWD{
 
   public static function hash($password) :string {
-    return password_hash($password);
+    return password_hash($password,PASSWORD_DEFAULT);
   }
 
   #returns boolean

@@ -54,14 +54,14 @@ class UserModel extends CoreModel
 
     public function create($email, $name, $pwd)
     {
-        
+        $pwd = password_hash($pwd,PASSWORD_DEFAULT);
         try
         {
-            if (($check = $this->getDb()->query("SELECT usr_nom AS nom FROM user WHERE usr_email = :email OR usr_nom = :name"))!==true)
-            {    if ($req -> execute()){
-                    $data = $req -> fetchAll(PDO::FETCH_ASSOC);
-                    $req ->closecursor();
-                    if (!(count($data) > 0)){                
+            // if (($check = $this->getDb()->query("SELECT usr_nom AS nom FROM user WHERE usr_email = ".$email." OR usr_nom = ".$name))!==true)
+            // {    if ($req -> execute()){
+            //         $data = $req -> fetchAll(PDO::FETCH_ASSOC);
+            //         $req ->closecursor();
+            //         if (!(count($data) > 0)){                
                         
 
                         if (($req =$this->getDb()->prepare("INSERT INTO user (usr_nom, usr_email, usr_mdp) VALUES (:name, :email, :pwd)"))!==false)
@@ -87,9 +87,9 @@ class UserModel extends CoreModel
                             }
                             $req ->closecursor();
                         }    
-                    }else return $data['nom'];
-                }
-            }# else can't read database
+                    // }else return $data['nom'];
+                // }
+            // }# else can't read database
         }catch(PDOException $e)
         {
             die($e->getMessage());

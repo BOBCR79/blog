@@ -9,7 +9,7 @@
             FORM::txt('name','name');
 
             FORM::lbl('Mot de passe','pwd');
-            FORM::pwd('pwd','pwd')
+            FORM::pwd('pwd','pwd');
 
         ?>
            <input type="submit" value="Créer">

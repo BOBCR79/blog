@@ -12,7 +12,7 @@
     <?php else:?>
         <nav class="wrapper">        
             <ul class="unlogged">
-                <li><a href="">Connexion</a></li>
+                <li><a href="index.php?c=user&a=connect">Connexion</a></li>
                 <li><a href="index.php?c=user&a=subscribe">Inscription</a></li>            
             </ul>
     </nav>

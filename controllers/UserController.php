@@ -6,8 +6,8 @@ class UserController{
     {
         try{
             $usrModel = new UserModel;
-            $hash = PWD::hash($pwd);
-            $_SESSION[APP_TAG]['connected']['use_login'] = $usrModel->create($email, $name, $hash);            
+           
+            $_SESSION[APP_TAG]['connected']['use_login'] = $usrModel->create($email, $name, $pwd);            
 
         }catch(Exception $e){
             die($e->getMessage());
@@ -18,4 +18,11 @@ class UserController{
     {
         include './views/user/create.php';
     }
+
+    public function connect()
+    {
+        include './views/user/login.php';
+    }
+
+
 }

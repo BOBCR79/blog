@@ -40,9 +40,9 @@ class dbg {
 
 class select{
     #parcours array simple pour afficher options
-    #@param $valueCol -> value string 
-    #@param $nameCol -> texte string
-    #@param $optional
+    #@param $valueCol -> value string (value)
+    #@param $nameCol -> texte string (key)
+    #@param $optional -> paramètres optionnels (bootstrap...)
     public static function array(array $array, string $valueCol, string $nameCol, $optional='')
     {
         foreach($array as $data){

@@ -9,7 +9,7 @@ class UserModel extends CoreModel
 
         try
         {
-            if (($req = $this->getDb()->prepare("SELECT usr_nom AS name, usr_email AS email, usr_pwd AS pwd FROM user WHERE usr_email=:email"))!==false){
+            if (($req = $this->getDb()->prepare("SELECT usr_nom AS name, usr_email AS email, usr_pwd AS pwd FROM user WHERE email=:email"))!==false){
                 if ($req -> bindValue('email', $email))
                 {                   
                     if ($req -> execute()){                    
@@ -19,7 +19,7 @@ class UserModel extends CoreModel
                             $_SESSION[APP_TAG]['connected']['use_login'] = $res;
                             
                             $req->closecursor();
-                           
+                            
                             header('location: index.php');
                             exit;
                         }else
